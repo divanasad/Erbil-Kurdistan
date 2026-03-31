@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erbil Thessaloniki - 3D Menu</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #1a1a1a; color: white; text-align: center; }
+        header { background: #d32f2f; padding: 20px; border-bottom: 4px solid #ffca28; }
+        .container { padding: 20px; }
+        #reader { width: 100%; max-width: 400px; margin: 0 auto; border-radius: 15px; overflow: hidden; border: 2px solid #ffca28; }
+        model-viewer { width: 100%; height: 350px; margin-top: 20px; display: none; background: radial-gradient(#444, #111); border-radius: 15px; }
+        .food-info { margin-top: 15px; display: none; }
+        .btn { background: #ffca28; color: black; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ERBIL RESTAURANT</h1>
+    <p>Thessaloniki - Scan Menu for 3D View</p>
+</header>
+
+<div class="container">
+    <div id="reader"></div>
+    <p id="hint">Point your camera at the food barcode</p>
+
+    <div id="display-area">
+        <h2 id="food-title"></h2>
+        <model-viewer id="viewer" src="" auto-rotate camera-controls shadow-intensity="1" ar></model-viewer>
+        <div class="food-info" id="food-desc">
+            <p id="price"></p>
+            <button class="btn" onclick="location.reload()">Scan Another Item</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const foodData = {
+        "ERBIL01": { 
+            name: "Mixed Kebab Plate", 
+            model: "https://modelviewer.dev/shared-assets/models/Astronaut.glb", // Replace with your .glb file link
+            price: "€12.50",
+            desc: "Grilled lamb and chicken with Erbil special spices."
+        },
+        "ERBIL02": { 
+            name: "Falafel Wrap", 
+            model: "", // Add link later
+            price: "€5.50",
+            desc: "Fresh falafel with hummus and salad."
+        }
+    };
+
+    function onScanSuccess(decodedText) {
+        const item = foodData[decodedText];
+        if (item) {
+            document.getElementById('reader').style.display = 'none';
+            document.getElementById('hint').style.display = 'none';
+            
+            const viewer = document.getElementById('viewer');
+            viewer.style.display = 'block';
+            viewer.src = item.model;
+            
+            document.getElementById('food-title').innerText = item.name;
+            document.getElementById('price').innerText = item.price + " - " + item.desc;
+            document.getElementById('food-desc').style.display = 'block';
+            
+            html5QrcodeScanner.clear();
+        }
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+</script>
+
+</body>
+</html>
