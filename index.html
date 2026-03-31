@@ -28,15 +28,16 @@
 <body>
 
 <header>
-    <h2 style="margin:0;">ERBIL RESTAURANT</h2>
-    <p style="margin:0; font-size: 0.8rem; color: #ffca28;">Thessaloniki - Digital Menu</p>
+    <h1 style="margin:0; font-size: 1.8rem;">ERBIL RESTAURANT</h1>
+    <p style="margin:5px 0; font-size: 0.9rem; color: #ffca28;">📍 Egnatia 115, Thessaloniki 546 35, Greece</p>
+    <p style="margin:0; font-size: 0.7rem; opacity: 0.8;">Open Daily: 11:00 AM - 11:00 PM</p>
 </header>
 
 <div id="menu-list" class="menu-container">
     
     <div class="category-title">🔥 From the Grill</div>
     <button class="food-btn" onclick="showFood('kebab')"><span>Kebab (1 Shish)</span> <span class="btn-price">€5.00</span></button>
-    <button class="food-btn" onclick="showFood('chicken_grill')"><span>Chicken Grill (1 Shish)</span> <span class="btn-price">€5.00</span></button>
+    <button class="food-btn" onclick="showFood('chicken_bbq')"><span>Chicken BBQ (1 Shish)</span> <span class="btn-price">€5.00</span></button>
     <button class="food-btn" onclick="showFood('beef_grill')"><span>Beef Grill (1 Shish)</span> <span class="btn-price">€5.00</span></button>
 
     <div class="category-title">🍽️ Main Plates</div>
@@ -57,6 +58,14 @@
     <button class="food-btn" onclick="showFood('water')"><span>Water</span> <span class="btn-price">€0.50</span></button>
     <button class="food-btn" onclick="showFood('cola')"><span>Cola</span> <span class="btn-price">€1.00</span></button>
 
+    <div style="margin: 30px 0; padding-bottom: 20px;">
+        <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" 
+           target="_blank" 
+           style="background: #2e7d32; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">
+           🗺️ Open in Google Maps
+        </a>
+    </div>
+
 </div>
 
 <div id="display-area">
@@ -69,7 +78,7 @@
 <script>
     const foodData = {
         "kebab": { name: "Kebab (1 Shish)", price: "€5.00", img: "kebab.jpg" },
-        "chicken_grill": { name: "Chicken Grill (1 Shish)", price: "€5.00", img: "chicken.jpg" },
+        "chicken_bbq": { name: "Chicken BBQ (1 Shish)", price: "€5.00", img: "chicken.jpg" },
         "beef_grill": { name: "Beef Grill (1 Shish)", price: "€5.00", img: "beef_grill.jpg" },
         "rice_soup": { name: "Rice & Any Soup", price: "€8.00", img: "rice_soup.jpg" },
         "lentil": { name: "Lentil Soup", price: "€5.00", img: "lentil.jpg" },
@@ -78,25 +87,4 @@
         "beef_meat": { name: "Beef Meat Plate", price: "€8.00", img: "beef.jpg" },
         "chickpea": { name: "Chickpea", price: "€5.00", img: "chickpea.jpg" },
         "kuftes": { name: "3 Kuftes", price: "€9.00", img: "kuftes.jpg" },
-        "falafel": { name: "Falafel Sandwich", price: "€3.00", img: "falafel.jpg" },
-        "tea": { name: "Kurdish Black Tea", price: "€0.50", img: "tea.jpg" },
-        "water": { name: "Water", price: "€0.50", img: "water.jpg" },
-        "airan": { name: "Airan", price: "€0.50", img: "airan.jpg" },
-        "cola": { name: "Cola", price: "€1.00", img: "cola.jpg" }
-    };
-
-    function showFood(id) {
-        const item = foodData[id];
-        document.getElementById('food-pic').src = item.img;
-        document.getElementById('food-title').innerText = item.name;
-        document.getElementById('display-price').innerText = item.price;
-        document.getElementById('display-area').style.display = 'block';
-    }
-
-    function goBack() {
-        document.getElementById('display-area').style.display = 'none';
-    }
-</script>
-
-</body>
-</html>
+        "falafel": { name: "Falafel Sandwich", price:
