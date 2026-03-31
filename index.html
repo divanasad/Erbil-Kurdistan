@@ -3,86 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erbil Thessaloniki - 3D Menu</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <title>Erbil Restaurant Menu</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #121212; color: white; text-align: center; }
-        header { background: #b71c1c; padding: 25px; border-bottom: 5px solid #ffca28; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .container { padding: 20px; }
-        #reader { width: 100%; max-width: 400px; margin: 0 auto; border-radius: 20px; border: 3px solid #ffca28; }
-        model-viewer { width: 100%; height: 400px; margin-top: 20px; display: none; background: #222; border-radius: 20px; }
-        .food-info { margin-top: 20px; display: none; padding: 20px; background: #1e1e1e; border-radius: 15px; }
-        .price { color: #ffca28; font-size: 1.5rem; font-weight: bold; }
-        .btn-wa { background: #25d366; color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin-top: 15px; }
-        .btn-scan { background: #555; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; }
+        header { background: #b71c1c; padding: 15px; border-bottom: 5px solid #ffca28; position: sticky; top: 0; z-index: 100; }
+        .category-title { color: #ffca28; margin-top: 25px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid #333; display: inline-block; padding-bottom: 5px; }
+        .menu-container { padding: 20px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        
+        .food-btn { 
+            background: #1e1e1e; border: 1px solid #444; color: white; 
+            padding: 15px; width: 100%; max-width: 450px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1rem; cursor: pointer; transition: 0.2s;
+        }
+        .food-btn:active { background: #333; transform: scale(0.98); }
+        .btn-price { color: #ffca28; font-weight: bold; }
+
+        #display-area { display: none; padding: 20px; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #121212; z-index: 200; overflow-y: auto; }
+        .food-img { width: 100%; max-width: 500px; border-radius: 15px; border: 2px solid #ffca28; margin-top: 20px; }
+        .display-price { color: #ffca28; font-size: 2rem; font-weight: bold; margin: 15px 0; }
+        .btn-back { background: #b71c1c; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-weight: bold; margin-top: 20px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 style="margin:0;">ERBIL RESTAURANT</h1>
-    <p style="margin:5px 0 0 0; color: #ffca28;">Thessaloniki - 3D Interactive Menu</p>
+    <h2 style="margin:0;">ERBIL RESTAURANT</h2>
+    <p style="margin:0; font-size: 0.8rem; color: #ffca28;">Thessaloniki - Digital Menu</p>
 </header>
 
-<div class="container">
-    <div id="reader"></div>
-    <p id="hint">Point your camera at the food barcode on the table</p>
+<div id="menu-list" class="menu-container">
+    
+    <div class="category-title">🔥 From the Grill</div>
+    <button class="food-btn" onclick="showFood('kebab')"><span>Kebab (1 Shish)</span> <span class="btn-price">€5.00</span></button>
+    <button class="food-btn" onclick="showFood('chicken_grill')"><span>Chicken Grill (1 Shish)</span> <span class="btn-price">€5.00</span></button>
+    <button class="food-btn" onclick="showFood('beef_grill')"><span>Beef Grill (1 Shish)</span> <span class="btn-price">€5.00</span></button>
 
-    <div id="display-area">
-        <h2 id="food-title" style="color:#ffca28;"></h2>
-        <model-viewer id="viewer" src="" auto-rotate camera-controls shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look"></model-viewer>
-        
-        <div class="food-info" id="food-desc">
-            <p id="description"></p>
-            <p class="price" id="price"></p>
-            <a id="wa-link" href="#" class="btn-wa">Order via WhatsApp</a>
-            <br>
-            <button class="btn-scan" onclick="location.reload()">Scan Another Dish</button>
-        </div>
-    </div>
+    <div class="category-title">🍽️ Main Plates</div>
+    <button class="food-btn" onclick="showFood('rice_soup')"><span>Rice & Any Soup</span> <span class="btn-price">€8.00</span></button>
+    <button class="food-btn" onclick="showFood('rice_chicken')"><span>Rice & Grilled Chicken</span> <span class="btn-price">€8.00</span></button>
+    <button class="food-btn" onclick="showFood('beef_meat')"><span>Beef Meat Plate</span> <span class="btn-price">€8.00</span></button>
+    <button class="food-btn" onclick="showFood('kuftes')"><span>3 Kuftes Plate</span> <span class="btn-price">€9.00</span></button>
+    <button class="food-btn" onclick="showFood('biriani')"><span>Biriani with Any Soup</span> <span class="btn-price">€5.00</span></button>
+
+    <div class="category-title">🥣 Sides & Soups</div>
+    <button class="food-btn" onclick="showFood('lentil')"><span>Lentil Soup</span> <span class="btn-price">€5.00</span></button>
+    <button class="food-btn" onclick="showFood('chickpea')"><span>Chickpea Plate</span> <span class="btn-price">€5.00</span></button>
+    <button class="food-btn" onclick="showFood('falafel')"><span>Falafel Sandwich</span> <span class="btn-price">€3.00</span></button>
+
+    <div class="category-title">☕ Drinks</div>
+    <button class="food-btn" onclick="showFood('tea')"><span>Kurdish Black Tea (Chai)</span> <span class="btn-price">€0.50</span></button>
+    <button class="food-btn" onclick="showFood('airan')"><span>Airan</span> <span class="btn-price">€0.50</span></button>
+    <button class="food-btn" onclick="showFood('water')"><span>Water</span> <span class="btn-price">€0.50</span></button>
+    <button class="food-btn" onclick="showFood('cola')"><span>Cola</span> <span class="btn-price">€1.00</span></button>
+
+</div>
+
+<div id="display-area">
+    <img id="food-pic" class="food-img" src="" alt="Erbil Food">
+    <h2 id="food-title" style="color:#ffca28; margin-bottom:0;"></h2>
+    <p id="display-price" class="display-price"></p>
+    <button class="btn-back" onclick="goBack()">Close</button>
 </div>
 
 <script>
     const foodData = {
-        "ERBIL01": { 
-            name: "Mixed Kebab Erbil", 
-            model: "https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/FoodPlate/glTF-Binary/FoodPlate.glb", 
-            price: "€13.50",
-            desc: "A mix of lamb and chicken kebabs served with grilled tomatoes and pita."
-        },
-        "ERBIL02": { 
-            name: "Traditional Shawarma", 
-            model: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb", 
-            price: "€6.00",
-            desc: "Thinly sliced meat with garlic sauce and Erbil's secret spices."
-        }
+        "kebab": { name: "Kebab (1 Shish)", price: "€5.00", img: "kebab.jpg" },
+        "chicken_grill": { name: "Chicken Grill (1 Shish)", price: "€5.00", img: "chicken.jpg" },
+        "beef_grill": { name: "Beef Grill (1 Shish)", price: "€5.00", img: "beef_grill.jpg" },
+        "rice_soup": { name: "Rice & Any Soup", price: "€8.00", img: "rice_soup.jpg" },
+        "lentil": { name: "Lentil Soup", price: "€5.00", img: "lentil.jpg" },
+        "rice_chicken": { name: "Rice & Grilled Chicken", price: "€8.00", img: "rice_chicken.jpg" },
+        "biriani": { name: "Biriani & Soup", price: "€5.00", img: "biriani.jpg" },
+        "beef_meat": { name: "Beef Meat Plate", price: "€8.00", img: "beef.jpg" },
+        "chickpea": { name: "Chickpea", price: "€5.00", img: "chickpea.jpg" },
+        "kuftes": { name: "3 Kuftes", price: "€9.00", img: "kuftes.jpg" },
+        "falafel": { name: "Falafel Sandwich", price: "€3.00", img: "falafel.jpg" },
+        "tea": { name: "Kurdish Black Tea", price: "€0.50", img: "tea.jpg" },
+        "water": { name: "Water", price: "€0.50", img: "water.jpg" },
+        "airan": { name: "Airan", price: "€0.50", img: "airan.jpg" },
+        "cola": { name: "Cola", price: "€1.00", img: "cola.jpg" }
     };
 
-    function onScanSuccess(decodedText) {
-        const item = foodData[decodedText];
-        if (item) {
-            document.getElementById('reader').style.display = 'none';
-            document.getElementById('hint').style.display = 'none';
-            
-            const viewer = document.getElementById('viewer');
-            viewer.style.display = 'block';
-            viewer.src = item.model;
-            
-            document.getElementById('food-title').innerText = item.name;
-            document.getElementById('description').innerText = item.desc;
-            document.getElementById('price').innerText = item.price;
-            
-            // Set WhatsApp Link (Replace '123456789' with Erbil Restaurant's actual phone number)
-            document.getElementById('wa-link').href = "https://wa.me/30123456789?text=I%20would%20like%20to%20order%20" + encodeURIComponent(item.name);
-            
-            document.getElementById('food-desc').style.display = 'block';
-            html5QrcodeScanner.clear();
-        }
+    function showFood(id) {
+        const item = foodData[id];
+        document.getElementById('food-pic').src = item.img;
+        document.getElementById('food-title').innerText = item.name;
+        document.getElementById('display-price').innerText = item.price;
+        document.getElementById('display-area').style.display = 'block';
     }
 
-    let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
-    html5QrcodeScanner.render(onScanSuccess);
+    function goBack() {
+        document.getElementById('display-area').style.display = 'none';
+    }
 </script>
 
 </body>
